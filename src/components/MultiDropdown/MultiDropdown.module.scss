@@ -1,0 +1,33 @@
+@use 'styles/_mixins.scss' as *;
+
+.multi-dropdown__options {
+  background-color: var(--dropdown-options-bg);
+  margin-top: var(--space-xxs);
+  width: 100%;
+  max-height: 156px;
+  box-shadow: var(--shadow);
+  font-family: 'Roboto', sans-serif;
+
+  &.view_p-16 {
+    @include adaptive-font(14, 16);
+    @include adaptive-lh(18, 20);
+  }
+}
+
+.multi-dropdown__item {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  padding: var(--space-s) var(--space-xs);
+
+  &:hover {
+    color: var(--text-secondary);
+  }
+
+  &--selected {
+    &,
+    &:hover {
+      color: var(--text-accent);
+    }
+  }
+}

@@ -1,0 +1,37 @@
+.button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--border-radius);
+  gap: var(--space-xxs);
+  padding: var(--space-s) var(--space-l);
+  min-height: 52px;
+  white-space: nowrap;
+  border: none;
+  cursor: pointer;
+  color: var(--button-primary-text);
+  background-color: var(--button-primary-bg);
+}
+.button :global(.loader) {
+  color: var(--button-primary-text);
+}
+.button:hover:not(.disabled) {
+  background-color: var(--button-primary-bg-hover);
+  color: var(--button-primary-text-hover);
+}
+.button.disabled {
+  cursor: not-allowed;
+  background-color: var(--button-primary-bg-disabled);
+  color: var(--button-primary-text-disabled);
+}
+.button.loading:hover {
+  background-color: var(--button-primary-bg);
+  color: var(--button-primary-text);
+}
+.button.loading.disabled:hover {
+  background-color: var(--button-primary-bg-disabled);
+  color: var(--button-primary-text-disabled);
+}
+
+/*# sourceMappingURL=Button.module.css.map */

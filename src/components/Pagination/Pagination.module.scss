@@ -1,0 +1,33 @@
+@use 'styles/_functions.scss' as f;
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: f.rem(15);
+
+  .leftIcon {
+    transform: scaleX(-1);
+  }
+
+  .number {
+    display: flex;
+
+    & > * {
+      width: 38px;
+      height: 42px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      cursor: pointer;
+      box-sizing: border-box;
+    }
+
+    .select {
+      color: var(--screen--color);
+      background-color: var(--brand);
+    }
+  }
+}

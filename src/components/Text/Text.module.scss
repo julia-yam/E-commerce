@@ -1,0 +1,57 @@
+@use 'styles/_mixins.scss' as *;
+
+.text {
+  color: inherit;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+
+  &.weight_normal {
+    font-weight: 400;
+  }
+  &.weight_medium {
+    font-weight: 500;
+  }
+  &.weight_bold {
+    font-weight: 700;
+  }
+
+  &.color_primary {
+    color: var(--text-primary);
+  }
+  &.color_secondary {
+    color: var(--text-secondary);
+  }
+  &.color_accent {
+    color: var(--text-accent);
+  }
+
+  &.view_title {
+    @include adaptive-font(24, 32);
+    @include adaptive-lh(30, 40);
+  }
+
+  &.view_button {
+    @include adaptive-font(16, 18);
+    @include adaptive-lh(16, 18);
+  }
+
+  &.view_p-20 {
+    @include adaptive-font(18, 20);
+    @include adaptive-lh(22, 24);
+  }
+
+  &.view_p-18 {
+    @include adaptive-font(16, 18);
+    @include adaptive-lh(20, 22);
+  }
+
+  &.view_p-16 {
+    @include adaptive-font(14, 16);
+    @include adaptive-lh(18, 20);
+  }
+
+  &.view_p-14 {
+    font-size: 14px;
+    line-height: 18px;
+  }
+}

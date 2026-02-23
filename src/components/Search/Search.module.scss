@@ -1,0 +1,47 @@
+@use 'styles/_mixins.scss' as *;
+
+.search {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  .searchAndFilter {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--space-m);
+
+    .searchProduct {
+      display: flex;
+      flex-direction: row;
+      gap: var(--space-m);
+    }
+
+    .input {
+      width: 100%;
+      height: 100%;
+    }
+    .button {
+      margin: auto;
+    }
+
+    .filter {
+      width: 100%;
+      max-width: 300px;
+    }
+
+  }
+
+
+  .total {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-m);
+
+    .textTotal {
+      @include adaptive-font(24, 32);
+      @include adaptive-lh(28, 36);
+    }
+  }
+}

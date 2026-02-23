@@ -1,0 +1,52 @@
+@use 'styles/_mixins.scss' as *;
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: var(--border-radius);
+  padding: var(--space-s) var(--space-xs);
+  height: 52px;
+
+  @include adaptive-font(14, 16);
+  @include adaptive-lh(18, 20);
+
+  &__field {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    margin: 0;
+    padding: 0;
+    font-size: inherit;
+    line-height: inherit;
+    color: var(--input-text);
+
+    &::placeholder {
+      color: var(--input-placeholder);
+    }
+
+    &:disabled {
+      color: var(--input-text-disabled);
+      cursor: not-allowed;
+    }
+  }
+
+  &:focus-within {
+    border-color: var(--input-border-focus);
+  }
+
+  &--disabled {
+    background-color: var(--input-bg-disabled);
+    border-color: var(--input-border-disabled);
+    cursor: not-allowed;
+  }
+
+  &__after {
+    display: flex;
+    align-items: center;
+    margin-left: var(--space-xxs);
+  }
+}

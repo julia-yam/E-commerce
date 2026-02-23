@@ -1,0 +1,60 @@
+@use 'styles/_mixins.scss' as *;
+
+.card {
+  background-color: var(--card-bg);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden;
+  height: 100%;
+
+  &:hover {
+    box-shadow: var(--shadow);
+  }
+
+  &--clickable {
+    cursor: pointer;
+  }
+}
+
+.cardHeader {
+  display: flex;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  flex-shrink: 0;
+  overflow: hidden;
+  background-color: var(--card-image-bg);
+  position: relative;
+}
+
+.cardImage {
+  width: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding-top: var(--space-xl);
+}
+
+.cardBodyMain {
+  padding: 0 var(--space-xs) var(--space-l) var(--space-xs);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xxs);
+}
+
+.cardFooter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  margin-top: auto;
+  padding-left: var(--space-xs);
+  padding-right: var(--space-xs);
+  padding-bottom: var(--space-xl);
+}

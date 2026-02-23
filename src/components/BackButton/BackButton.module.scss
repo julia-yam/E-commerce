@@ -1,0 +1,21 @@
+.backButton {
+  border: none;
+  padding: 0;
+  background-color: transparent;
+  display: flex;
+  gap: var(--space-xs);
+  align-items: center;
+  cursor: pointer;
+
+  .back {
+    transform: scaleX(-1);
+  }
+
+  .text {
+    width: 85px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

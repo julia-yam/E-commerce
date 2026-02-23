@@ -1,0 +1,94 @@
+@use 'styles/_mixins.scss' as *;
+@use 'styles/_functions.scss' as f;
+
+.productDetail {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    @include adaptive-margin(60, 39, 166, 100);
+
+    .productBody {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-xl);
+    }
+
+    .product {
+        display: flex;
+        flex-direction: row;
+        gap: var(--space-xl);
+        margin-top: var(--space-l);
+        width: 100%;
+
+        @include respond-down("mobile") {
+            flex-direction: column;
+        }
+    }
+
+    .cardImage {
+        width: 100%;
+        max-width: f.rem(600);
+        height: auto;
+        display: block;
+        object-fit: cover;
+    }
+
+    .details {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-xl);
+
+        .description {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-m);
+        }
+
+        .title, .price {
+            @include adaptive-font(28, 44);
+            @include adaptive-lh(32, 48);
+        }
+
+        .button {
+            display: flex;
+            gap: var(--space-xl);
+
+            @include respond-down("mobile") {
+                flex-direction: column;
+                gap: var(--space-m);
+            }
+
+            .buttonAdd {
+                background-color: transparent;
+                color: var(--text-primary);
+                border: 1px solid var(--text-primary);
+            }
+        }
+    }
+
+    .relatedItems {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-l);
+        margin-top: var(--space-xl);
+
+        .relatedItemsGrid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: f.rem(32);
+            width: 100%;
+            max-width: 1238px;
+
+            @include respond-down("laptop") {
+                grid-template-columns: repeat(2, 1fr);
+                gap: f.rem(24);
+            }
+
+            @include respond-down("mobile") {
+                grid-template-columns: 1fr;
+                gap: f.rem(20);
+            }
+        }
+    }
+}
