@@ -1,0 +1,73 @@
+@use 'styles/variables.scss' as *;
+@use 'styles/mixins' as *;
+@use 'styles/functions' as f;
+
+$container-width: 1240px;
+
+.productPage {
+    width: 100%;
+    overflow-x: hidden;
+
+    .infoProduct {
+        max-width: 653px;
+        margin: f.rem(100) auto f.rem(50);
+        min-height: auto;
+    }
+
+    .searchProduct {
+        display: flex;
+        flex-direction: column;
+        max-width: $container-width;
+        margin: 0 auto;
+        padding: 0 f.rem(16);
+
+        .search {
+            margin-bottom: f.rem(35);
+        }
+
+        .listWrapper {
+            width: 100%;
+        }
+
+        .rowWrapper {
+            display: flex;
+            box-sizing: border-box;
+            padding-bottom: f.rem(24);
+        }
+
+        .gridRow {
+            display: grid;
+            width: 100%;
+            height: 100%;
+            align-items: stretch;
+
+            grid-template-columns: repeat(3, 1fr);
+            gap: $space-l;
+
+            @include respond-down("laptop") {
+                grid-template-columns: repeat(2, 1fr);
+                gap: $space-m;
+            }
+
+            @include respond-down("mobile") {
+                gap: f.rem(12);
+            }
+        }
+
+        .loaderRow {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: f.rem(80);
+            color: $text-secondary;
+        }
+    }
+
+    .empty {
+        text-align: center;
+        padding: f.rem(50);
+        font-size: f.rem(20);
+        color: $input-placeholder;
+    }
+}

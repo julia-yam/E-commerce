@@ -1,2 +1,1 @@
-export { default } from './MultiDropdown';
-export * from './MultiDropdown';
+export { default as MultiDropdown } from './MultiDropdown';

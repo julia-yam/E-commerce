@@ -1,20 +1,18 @@
 import React from 'react';
 import cn from 'classnames';
-import Text from 'components/Text';
-import ArrowRightIcon from 'components/icons/ArrowRightIcon';
+import { Text, ArrowRightIcon } from 'components';
 import styles from './BackButton.module.scss';
-
-export type BackButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  className?: string;
-  /** Текст кнопки */
-  children: React.ReactNode;
-};
+import { type BackButtonProps, BACK_BUTTON_TEXT_CONFIG, BACK_ICON_CONFIG } from './configs';
 
 const BackButton: React.FC<BackButtonProps> = ({ children, className, ...props }) => {
   return (
     <button {...props} className={cn(styles.backButton, className)}>
-      <ArrowRightIcon width={32} height={32} className={styles.back}></ArrowRightIcon>
-      <Text className={styles.text} view="p-20" weight="normal" tag="span">
+      <ArrowRightIcon
+        width={BACK_ICON_CONFIG.width}
+        height={BACK_ICON_CONFIG.height}
+        className={styles.back}
+      />
+      <Text className={styles.text} {...BACK_BUTTON_TEXT_CONFIG}>
         {children}
       </Text>
     </button>

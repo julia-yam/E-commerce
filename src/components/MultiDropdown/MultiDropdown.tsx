@@ -1,21 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import Input from 'components/Input';
-import ArrowDownIcon from 'components/icons/ArrowDownIcon';
+import { Input, ArrowDownIcon } from 'components';
 import styles from './MultiDropdown.module.scss';
-
-export type Option = {
-  key: string;
-  value: string;
-};
-
-export type MultiDropdownProps = {
-  className?: string;
-  options: Option[];
-  value: Option[];
-  onChange: (value: Option[]) => void;
-  disabled?: boolean;
-  getTitle: (value: Option[]) => string;
-};
+import { type MultiDropdownProps, type Option, getFilteredOptions } from './configs';
 
 const MultiDropdown: React.FC<MultiDropdownProps> = ({
   className,
@@ -47,7 +33,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
   }, [isOpen]);
 
   const filteredOptions = useMemo(() => {
-    return options.filter((option) => option.value.toLowerCase().includes(filter.toLowerCase()));
+    return getFilteredOptions(options, filter);
   }, [options, filter]);
 
   const handleOptionClick = (option: Option) => {
@@ -93,7 +79,6 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
         >
           {filteredOptions.map((option) => {
             const isSelected = value.some((v) => v.key === option.key);
-
             const itemClasses = `${styles['multi-dropdown__item']} ${
               isSelected ? styles['multi-dropdown__item--selected'] : ''
             }`.trim();

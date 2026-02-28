@@ -1,5 +1,6 @@
 import * as React from 'react';
-import Icon, { type IconProps } from 'components/icons/Icon';
+import { Icon } from 'components';
+import { type IconProps } from 'components/icons/Icon/configs.ts';
 
 const ArrowRightIcon: React.FC<IconProps> = (props) => (
   <Icon {...props}>

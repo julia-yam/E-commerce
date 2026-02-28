@@ -1,13 +1,14 @@
-@use 'styles/_mixins.scss' as *;
+@use 'styles/variables.scss' as *;
+@use 'styles/mixins' as *;
 
 .input-wrapper {
   display: flex;
   align-items: center;
   box-sizing: border-box;
-  background-color: var(--input-bg);
-  border: 1px solid var(--input-border);
-  border-radius: var(--border-radius);
-  padding: var(--space-s) var(--space-xs);
+  background-color: $input-bg;
+  border: 1px solid $input-border;
+  border-radius: $border-radius;
+  padding: $space-s $space-xs;
   height: 52px;
 
   @include adaptive-font(14, 16);
@@ -22,31 +23,31 @@
     padding: 0;
     font-size: inherit;
     line-height: inherit;
-    color: var(--input-text);
+    color: $input-text;
 
     &::placeholder {
-      color: var(--input-placeholder);
+      color: $input-placeholder;
     }
 
     &:disabled {
-      color: var(--input-text-disabled);
+      color: $input-text-disabled;
       cursor: not-allowed;
     }
   }
 
   &:focus-within {
-    border-color: var(--input-border-focus);
+    border-color: $brand;
   }
 
   &--disabled {
-    background-color: var(--input-bg-disabled);
-    border-color: var(--input-border-disabled);
+    background-color: $input-bg-disabled;
+    border-color: $input-border-disabled;
     cursor: not-allowed;
   }
 
   &__after {
     display: flex;
     align-items: center;
-    margin-left: var(--space-xxs);
+    margin-left: $space-xxs;
   }
 }

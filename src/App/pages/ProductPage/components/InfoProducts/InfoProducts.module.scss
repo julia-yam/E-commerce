@@ -1,0 +1,21 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.infoProduct {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $space-m;
+  height: 128px;
+  text-align: center;
+
+  .title {
+    @include fluid-text(28, 44);
+    line-height: 1.1;
+  }
+
+  @include respond-down("tablet") {
+    display: none;
+  }
+}

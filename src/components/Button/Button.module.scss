@@ -1,42 +1,43 @@
+@use 'styles/variables.scss' as *;
+
 .button {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  border-radius: var(--border-radius);
-  gap: var(--space-xxs);
-  padding: var(--space-s) var(--space-l);
-  min-height: 52px;
+  border-radius: $border-radius;
+  gap: $space-xxs;
+  padding: $space-s $space-l;
   white-space: nowrap;
   border: none;
   cursor: pointer;
-  color: var(--button-primary-text);
-  background-color: var(--button-primary-bg);
+  color: $button-primary-text;
+  background-color: $button-primary-bg;
 
   & :global(.loader) {
-    color: var(--button-primary-text);
+    color: $button-primary-text;
   }
 
   &:hover:not(.disabled) {
-    background-color: var(--button-primary-bg-hover);
-    color: var(--button-primary-text-hover);
+    background-color: $button-primary-bg-hover;
+    color: $button-primary-text;
   }
 
   &.disabled {
     cursor: not-allowed;
-    background-color: var(--button-primary-bg-disabled);
-    color: var(--button-primary-text-disabled);
+    background-color: $button-primary-bg-disabled;
+    color: $button-primary-text;
   }
 
   &.loading {
     &:hover {
-      background-color: var(--button-primary-bg);
-      color: var(--button-primary-text);
+      background-color: $button-primary-bg;
+      color: $button-primary-text;
     }
 
     &.disabled:hover {
-      background-color: var(--button-primary-bg-disabled);
-      color: var(--button-primary-text-disabled);
+      background-color: $button-primary-bg-disabled;
+      color: $button-primary-text;
     }
   }
 }
