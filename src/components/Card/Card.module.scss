@@ -1,7 +1,8 @@
-@use 'styles/_mixins.scss' as *;
+@use 'styles/mixins' as *;
+@use 'styles/variables.scss' as *;
 
 .card {
-  background-color: var(--card-bg);
+  background-color: $card-bg;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -9,7 +10,7 @@
   height: 100%;
 
   &:hover {
-    box-shadow: var(--shadow);
+    box-shadow: $shadow;
   }
 
   &--clickable {
@@ -23,7 +24,7 @@
   aspect-ratio: 1 / 1;
   flex-shrink: 0;
   overflow: hidden;
-  background-color: var(--card-image-bg);
+  background-color: $card-image-bg;
   position: relative;
 }
 
@@ -37,14 +38,14 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding-top: var(--space-xl);
+  padding-top: $space-xl;
 }
 
 .cardBodyMain {
-  padding: 0 var(--space-xs) var(--space-l) var(--space-xs);
+  padding: 0 $space-xs $space-l $space-xs;
   display: flex;
   flex-direction: column;
-  gap: var(--space-xxs);
+  gap: $space-xxs;
 }
 
 .cardFooter {
@@ -54,7 +55,7 @@
   align-items: center;
   flex-shrink: 0;
   margin-top: auto;
-  padding-left: var(--space-xs);
-  padding-right: var(--space-xs);
-  padding-bottom: var(--space-xl);
+  padding-left: $space-xs;
+  padding-right: $space-xs;
+  padding-bottom: $space-xl;
 }

@@ -1,29 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Search.module.scss';
-import Input from 'components/Input';
-import MultiDropdown, { type Option } from 'components/MultiDropdown';
-import Button from 'components/Button';
-import Text from 'components/Text';
+import { Input, MultiDropdown, Button, Text } from 'components';
 
-export type SearchProps = {
-  className?: string;
-};
+import { type SearchProps, TEXTS, getDropdownTitle } from './configs';
 
-const Search: React.FC<SearchProps> = ({ className }) => {
-  const options: Option[] = [
-    { key: 'el', value: 'Electronics' },
-    { key: 'fur', value: 'Furniture' },
-    { key: 'shs', value: 'Shoes' },
-  ];
-  const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
-  const [searchQuery, setSearchQuery] = useState('');
+const Search: React.FC<SearchProps> = ({
+  className,
+  options,
+  selectedOptions,
+  onFilterChange,
+  searchQuery,
+  onSearchChange,
+  totalCount,
+}) => {
+  const [localValue, setLocalValue] = useState(searchQuery);
 
-  const getDropdownTitle = (selected: Option[]): string => {
-    if (selected.length === 0) return 'Filter';
-    return selected.map((option) => option.value).join(', ');
+  useEffect(() => {
+    setLocalValue(searchQuery);
+  }, [searchQuery]);
+
+  const handleSearch = () => {
+    onSearchChange(localValue);
   };
-  const handleSearchChange = (value: string) => {
-    setSearchQuery(value);
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') handleSearch();
   };
 
   return (
@@ -32,29 +33,34 @@ const Search: React.FC<SearchProps> = ({ className }) => {
         <div className={styles.searchProduct}>
           <Input
             className={styles.input}
-            value={searchQuery}
-            onChange={handleSearchChange}
-            placeholder="Search product"
+            value={localValue}
+            onChange={(e: any) => {
+              const val = typeof e === 'string' ? e : e?.target?.value || '';
+              setLocalValue(val);
+            }}
+            onKeyDown={handleKeyDown}
+            placeholder={TEXTS.placeholder}
           />
-          <Button className={styles.button}>Find now</Button>
+          <Button className={styles.button} onClick={handleSearch}>
+            {TEXTS.button}
+          </Button>
         </div>
         <div className={styles.filter}>
           <MultiDropdown
             options={options}
             value={selectedOptions}
-            onChange={setSelectedOptions}
+            onChange={onFilterChange}
             getTitle={getDropdownTitle}
-          ></MultiDropdown>
+          />
         </div>
       </div>
 
       <div className={styles.total}>
         <Text className={styles.textTotal} weight={'bold'}>
-          Total products
+          {TEXTS.totalLabel}
         </Text>
-
         <Text className={styles.number} view={'p-20'} color={'accent'} weight={'bold'}>
-          777
+          {totalCount}
         </Text>
       </div>
     </div>

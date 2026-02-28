@@ -1,31 +1,17 @@
 import React from 'react';
-import CheckIcon from 'components/icons/CheckIcon';
+import { CheckIcon } from 'components';
 import styles from './CheckBox.module.scss';
-
-export type CheckBoxProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> & {
-  /** Вызывается при клике на чекбокс */
-  onChange: (checked: boolean) => void;
-};
+import { type CheckBoxProps, CHECK_ICON_CONFIG, getCheckBoxClasses } from './configs';
 
 const CheckBox: React.FC<CheckBoxProps> = ({ onChange, checked, className, disabled, ...rest }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.checked);
   };
 
-  const wrapperClasses = [
-    styles['checkboxWrapper'],
-    disabled ? styles['checkboxWrapperDisabled'] : '',
-    className || '',
-  ]
-    .join(' ')
-    .trim();
-
-  const customClasses = [styles['checkboxCustom'], checked ? styles['checkboxCustomChecked'] : '']
-    .join(' ')
-    .trim();
+  const classes = getCheckBoxClasses(styles, { checked, disabled, className });
 
   return (
-    <label className={wrapperClasses}>
+    <label className={classes.wrapper}>
       <input
         {...rest}
         type="checkbox"
@@ -34,9 +20,14 @@ const CheckBox: React.FC<CheckBoxProps> = ({ onChange, checked, className, disab
         onChange={handleChange}
         className={styles['checkboxInput']}
       />
-      <div className={customClasses}>
+      <div className={classes.custom}>
         {checked && (
-          <CheckIcon className={styles['checkboxIcon']} width={40} height={40} color="accent" />
+          <CheckIcon
+            className={styles['checkboxIcon']}
+            width={CHECK_ICON_CONFIG.width}
+            height={CHECK_ICON_CONFIG.height}
+            color={CHECK_ICON_CONFIG.color}
+          />
         )}
       </div>
     </label>

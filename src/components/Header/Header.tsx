@@ -1,9 +1,7 @@
 import { Link } from 'react-router';
-import Logo from 'components/Logo';
-import Text from 'components/Text';
-import UserIcon from 'components/icons/UserIcon';
-import BagIcon from 'components/icons/BagIcon';
+import { Logo, Text, UserIcon, BagIcon } from 'components';
 import styles from './Header.module.scss';
+import { NAV_ITEMS, ACTION_ICONS_CONFIG } from './configs';
 
 const Header = () => (
   <header className={styles.header}>
@@ -11,23 +9,29 @@ const Header = () => (
       <div>
         <Logo className={styles.logo} />
       </div>
+
       <div className={styles.navList}>
-        <Text view={'p-18'} color={'primary'}>
-          <Link to="/">Products</Link>
-        </Text>
-        <Text view={'p-18'} color={'primary'}>
-          <Link to="/product-page">Categories</Link>
-        </Text>
-        <Text view={'p-18'} color={'primary'}>
-          <Link to="/product-page">About us</Link>
-        </Text>
+        {NAV_ITEMS.map((item) => (
+          <Text key={item.label} view={'p-18'} color={'primary'}>
+            <Link to={item.href}>{item.label}</Link>
+          </Text>
+        ))}
       </div>
+
       <div className={styles.navActions}>
-        <Link to="/product-page">
-          <BagIcon width={30} height={30} color={'primary'} />
+        <Link to={ACTION_ICONS_CONFIG.href}>
+          <BagIcon
+            width={ACTION_ICONS_CONFIG.width}
+            height={ACTION_ICONS_CONFIG.height}
+            color={ACTION_ICONS_CONFIG.color}
+          />
         </Link>
-        <Link to="/product-page">
-          <UserIcon width={30} height={30} color={'primary'} />
+        <Link to={ACTION_ICONS_CONFIG.href}>
+          <UserIcon
+            width={ACTION_ICONS_CONFIG.width}
+            height={ACTION_ICONS_CONFIG.height}
+            color={ACTION_ICONS_CONFIG.color}
+          />
         </Link>
       </div>
     </nav>

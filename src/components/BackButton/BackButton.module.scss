@@ -1,9 +1,11 @@
+@use 'styles/variables.scss' as *;
+
 .backButton {
   border: none;
   padding: 0;
   background-color: transparent;
   display: flex;
-  gap: var(--space-xs);
+  gap: $space-xs;
   align-items: center;
   cursor: pointer;
 

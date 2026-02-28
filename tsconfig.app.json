@@ -26,11 +26,13 @@
 
     "baseUrl": "src",
     "paths": {
-      "components": ["components/*"],
-      "config": ["config/*"],
+      "components": ["components"],
+      "components/*": ["components/*"],
       "styles": ["styles/*"],
       "utils": ["utils/*"],
-      "api": ["api/*"]
+      "api": ["api/*"],
+      "pages": ["components/pages/*"],
+      "store": ["store/*"]
     }
   },
   "include": ["src"]

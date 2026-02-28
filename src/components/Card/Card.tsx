@@ -1,18 +1,8 @@
 import React from 'react';
 import cn from 'classnames';
-import Text from 'components/Text';
+import { Text } from 'components';
 import styles from './Card.module.scss';
-
-export type CardProps = {
-  className?: string;
-  image: string;
-  captionSlot?: React.ReactNode;
-  title: React.ReactNode;
-  subtitle: React.ReactNode;
-  contentSlot?: React.ReactNode;
-  onClick?: React.MouseEventHandler;
-  actionSlot?: React.ReactNode;
-};
+import { type CardProps, CARD_TEXT_CONFIG } from './configs';
 
 const Card: React.FC<CardProps> = ({
   className,
@@ -24,58 +14,48 @@ const Card: React.FC<CardProps> = ({
   onClick,
   actionSlot,
 }) => {
-  const classes = cn(
-    styles.card,
-    {
-      [styles['card--clickable']]: !!onClick, // Используем квадратные скобки для классов с дефисом
-    },
-    className
-  );
+  const classes = cn(styles.card, { [styles['card--clickable']]: !!onClick }, className);
+
+  const imageAlt = typeof title === 'string' ? title : '';
+
+  const handleActionClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
 
   return (
     <div
-      className={classes} // 3. Применяем подготовленную переменную classes
+      className={classes}
       onClick={onClick}
       role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
     >
       <div className={styles.cardHeader}>
-        <img src={image} alt="" className={styles.cardImage} />
+        <img src={image} alt={imageAlt} className={styles.cardImage} />
       </div>
 
-      <div className="cardBody">
-        {' '}
-        {/* Можно оставить обычную строку, если класс не описан в CSS, но лучше через styles */}
-        <div className={styles.cardBody}>
-          <div className={styles.cardBodyMain}>
-            {captionSlot && (
-              <Text view="p-14" weight="normal" tag="p" color="secondary">
-                {captionSlot}
-              </Text>
-            )}
+      <div className={styles.cardBody}>
+        <div className={styles.cardBodyMain}>
+          {captionSlot && <Text {...CARD_TEXT_CONFIG.caption}>{captionSlot}</Text>}
 
-            <div data-testid="text">
-              <Text view="p-20" weight="medium" tag="h3" maxLines={2}>
-                {title}
-              </Text>
-            </div>
+          <div data-testid="text">
+            <Text {...CARD_TEXT_CONFIG.title}>{title}</Text>
+          </div>
 
-            <div data-testid="text">
-              <Text view="p-16" weight="normal" tag="p" color="secondary" maxLines={3}>
-                {subtitle}
-              </Text>
-            </div>
+          <div data-testid="text">
+            <Text {...CARD_TEXT_CONFIG.subtitle}>{subtitle}</Text>
           </div>
         </div>
       </div>
+
       <div className={styles.cardFooter}>
         {contentSlot && (
-          <Text view="p-18" weight="bold" className={styles.cardContent}>
+          <Text {...CARD_TEXT_CONFIG.content} className={styles.cardContent}>
             {contentSlot}
           </Text>
         )}
 
         {actionSlot && (
-          <div className={styles.cardAction} onClick={(e) => e.stopPropagation()}>
+          <div className={styles.cardAction} onClick={handleActionClick}>
             {actionSlot}
           </div>
         )}

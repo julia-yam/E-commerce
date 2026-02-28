@@ -1,15 +1,17 @@
+@use 'styles/variables.scss' as *;
+
 .icon {
   color: inherit;
 }
 
 .primary {
-  color: var(--text-primary);
+  color: $text-primary;
 }
 
 .secondary {
-  color: var(--text-secondary);
+  color: $text-secondary;
 }
 
 .accent {
-  color: var(--text-accent);
+  color: $brand;
 }

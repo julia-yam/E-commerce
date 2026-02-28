@@ -24,11 +24,4 @@ export default defineConfig({
   resolve: {
     alias: parseTsConfigPaths(tsconfig.compilerOptions.paths),
   },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        additionalData: `@use 'styles/_mixins.scss' as *;`,
-      },
-    },
-  },
 });
