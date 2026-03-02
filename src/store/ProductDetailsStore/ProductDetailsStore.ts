@@ -44,6 +44,16 @@ export default class ProductDetailsStore implements ILocalStore {
     );
   }
 
+  get filteredRelatedProducts() {
+    if (!this.product) return [];
+
+    return this.relatedProducts.filter((item) => {
+      return (
+        item.category === this.product?.category && item.documentId !== this.product?.documentId
+      );
+    });
+  }
+
   get product(): FormattedProduct | null {
     return this._product;
   }

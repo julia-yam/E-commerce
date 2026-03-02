@@ -67,29 +67,4 @@
             }
         }
     }
-
-    .relatedItems {
-        display: flex;
-        flex-direction: column;
-        gap: $space-l;
-        margin-top: $space-xl;
-
-        .relatedItemsGrid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: $space-l;
-            width: 100%;
-            max-width: 1238px;
-
-            @include respond-down("laptop") {
-                grid-template-columns: repeat(2, 1fr);
-                gap: $space-m;
-            }
-
-            @include respond-down("mobile") {
-                grid-template-columns: 1fr;
-                gap: f.rem(20);
-            }
-        }
-    }
 }

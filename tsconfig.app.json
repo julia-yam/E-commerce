@@ -32,7 +32,8 @@
       "utils": ["utils/*"],
       "api": ["api/*"],
       "pages": ["components/pages/*"],
-      "store": ["store/*"]
+      "store": ["store/*"],
+      "hooks": ["hooks/*"]
     }
   },
   "include": ["src"]

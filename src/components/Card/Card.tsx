@@ -13,14 +13,44 @@ const Card: React.FC<CardProps> = ({
   contentSlot,
   onClick,
   actionSlot,
+  isLoading,
 }) => {
-  const classes = cn(styles.card, { [styles['card--clickable']]: !!onClick }, className);
+  const classes = cn(
+    styles.card,
+    { [styles['card--clickable']]: !!onClick && !isLoading },
+    className
+  );
 
   const imageAlt = typeof title === 'string' ? title : '';
 
   const handleActionClick = (e: React.MouseEvent) => {
     e.stopPropagation();
   };
+
+  if (isLoading) {
+    return (
+      <div className={classes}>
+        <div className={styles.cardHeader}>
+          <div className={styles.skeletonImage} />
+        </div>
+
+        <div className={styles.cardBody}>
+          <div className={styles.cardBodyMain}>
+            <div className={styles.skeletonOverline} />
+            <div className={styles.skeletonTitle} />
+            <div className={styles.skeletonDescription} />
+            <div className={styles.skeletonDescription} />
+            <div className={styles.skeletonDescription} />
+          </div>
+        </div>
+
+        <div className={styles.cardFooter}>
+          <div />
+          <div className={styles.skeletonButton} />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div

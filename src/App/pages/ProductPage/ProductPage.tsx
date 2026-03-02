@@ -1,126 +1,56 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { observer, Observer } from 'mobx-react-lite';
-import { List, InfiniteLoader, AutoSizer, WindowScroller, type Index } from 'react-virtualized';
-
 import 'react-virtualized/styles.css';
-import { Card, Button, InfoProducts, Search, Loader } from 'components';
-import ProductListStore from '../../../store/ProductListStore';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
+import { List, InfiniteLoader, AutoSizer, WindowScroller } from 'react-virtualized';
+
+import { InfoProducts, Search } from 'components';
+import ProductListStore from 'store/ProductListStore';
+import { ProductRow } from './components/ProductRow';
 import styles from './ProductPage.module.scss';
+
+const SKELETON_ROWS_COUNT = 4;
 
 const ProductPage = observer(() => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
   const [store] = useState(() => new ProductListStore());
-  const { filters } = store;
-
-  const getColumnsCount = useCallback(() => {
-    return window.innerWidth < 1024 ? 2 : 3;
-  }, []);
-
-  const [columnsCount, setColumnsCount] = useState(getColumnsCount());
 
   useEffect(() => {
-    const handleResize = () => {
-      const newCount = getColumnsCount();
-      if (newCount !== columnsCount) {
-        setColumnsCount(newCount);
-      }
-    };
+    const handleResize = () => store.setWindowWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [store]);
 
-    const init = async () => {
-      try {
-        const search = searchParams.get('search') || '';
-        const categories = searchParams.getAll('category');
+  useEffect(() => {
+    const search = searchParams.get('search') || '';
+    const categories = searchParams.getAll('category');
 
-        if (store.setFiltersFromQueryParams) {
-          store.setFiltersFromQueryParams({ search, categories });
-        }
+    void store.init(search, categories);
 
-        await store.fetchData();
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    void init();
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      store.destroy();
-    };
-  }, [getColumnsCount, columnsCount, store, searchParams]);
+    return () => store.destroy();
+  }, [store]);
 
   useEffect(() => {
     const newParams = new URLSearchParams();
-    if (filters.searchQuery) newParams.set('search', filters.searchQuery);
-    filters.selectedCategories.forEach((c) => newParams.append('category', c.key));
+    if (store.filters.searchQuery) {
+      newParams.set('search', store.filters.searchQuery);
+    }
+    store.filters.selectedCategories.forEach((c) => {
+      newParams.append('category', c.key);
+    });
+
     setSearchParams(newParams, { replace: true });
-  }, [filters.searchQuery, filters.selectedCategories, setSearchParams]);
+  }, [store.filters.searchQuery, store.filters.selectedCategories, setSearchParams]);
 
-  const loadedRowsCount = Math.ceil(store.products.length / columnsCount);
-  const totalRowCount = store.hasMore ? loadedRowsCount + 1 : loadedRowsCount;
+  const isInitialLoading = store.isLoading && store.products.length === 0;
 
-  const isRowLoaded = ({ index }: Index) => index < loadedRowsCount;
+  const loadedRowsCount = Math.ceil(store.products.length / store.columnsCount);
 
-  const loadMoreRows = () => {
-    if (store.isLoading || !store.hasMore) return Promise.resolve();
-    return store.fetchNextPage();
-  };
-
-  const rowRenderer = ({ index, key, style }: any) => {
-    const isMobile = window.innerWidth < 768;
-
-    return (
-      <div key={key} style={style} className={styles.rowWrapper}>
-        <Observer>
-          {() => {
-            if (!isRowLoaded({ index })) {
-              return (
-                <div className={styles.loaderRow}>{store.isLoading && <Loader size="l" />}</div>
-              );
-            }
-
-            const startIndex = index * columnsCount;
-            const rowItems = store.products.slice(startIndex, startIndex + columnsCount);
-
-            return (
-              <div className={styles.gridRow}>
-                {rowItems.map((product) => (
-                  <Card
-                    key={product.documentId}
-                    image={product.image}
-                    title={product.title}
-                    subtitle={product.description}
-                    captionSlot={product.category}
-                    contentSlot={`$${product.price}`}
-                    onClick={() => navigate(`/product-card/${product.documentId}`)}
-                    actionSlot={
-                      <Button disabled={!product.isInStock}>
-                        {product.isInStock
-                          ? isMobile
-                            ? 'Add'
-                            : 'Add To Cart'
-                          : isMobile
-                            ? 'Not'
-                            : 'Not Available'}
-                      </Button>
-                    }
-                  />
-                ))}
-              </div>
-            );
-          }}
-        </Observer>
-      </div>
-    );
-  };
-
-  const currentRowHeight = useMemo(() => {
-    if (columnsCount === 2) return window.innerWidth < 768 ? 540 : 660;
-    return 730;
-  }, [columnsCount]);
+  const totalRowCount = isInitialLoading
+    ? SKELETON_ROWS_COUNT
+    : store.hasMore
+      ? loadedRowsCount + 1
+      : loadedRowsCount;
 
   return (
     <div className={styles.productPage}>
@@ -130,17 +60,17 @@ const ProductPage = observer(() => {
         <Search
           className={styles.search}
           options={store.categories}
-          selectedOptions={filters.selectedCategories}
-          onFilterChange={filters.setSelectedCategories}
-          searchQuery={filters.searchQuery}
-          onSearchChange={filters.setSearchQuery}
+          selectedOptions={store.filters.selectedCategories}
+          onFilterChange={store.filters.setSelectedCategories}
+          searchQuery={store.filters.searchQuery}
+          onSearchChange={store.filters.setSearchQuery}
           totalCount={store.total}
         />
 
         <div className={styles.listWrapper}>
           <InfiniteLoader
-            isRowLoaded={isRowLoaded}
-            loadMoreRows={loadMoreRows}
+            isRowLoaded={({ index }) => !isInitialLoading && index < loadedRowsCount}
+            loadMoreRows={() => store.fetchNextPage()}
             rowCount={totalRowCount}
             threshold={1}
           >
@@ -150,7 +80,7 @@ const ProductPage = observer(() => {
                   <AutoSizer disableHeight>
                     {({ width }) => (
                       <List
-                        key={`list-${columnsCount}`}
+                        key={`list-${store.columnsCount}`}
                         autoHeight
                         ref={registerChild}
                         onRowsRendered={onRowsRendered}
@@ -160,9 +90,11 @@ const ProductPage = observer(() => {
                         scrollTop={scrollTop}
                         width={width}
                         rowCount={totalRowCount}
-                        rowHeight={currentRowHeight}
-                        rowRenderer={rowRenderer}
-                        style={{ outline: 'none' }}
+                        rowHeight={store.rowHeight}
+                        rowRenderer={({ key, ...rest }) => (
+                          <ProductRow key={key} {...rest} store={store} />
+                        )}
+                        className={styles.virtualizedList}
                       />
                     )}
                   </AutoSizer>

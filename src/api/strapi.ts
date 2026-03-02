@@ -11,14 +11,27 @@ import {
 
 const STRAPI_BASE_URL = 'https://front-school-strapi.ktsdev.ru';
 const STRAPI_API_URL = `${STRAPI_BASE_URL}/api`;
-const API_TOKEN = '...'.trim();
 
 const api = axios.create({
   baseURL: STRAPI_API_URL,
   headers: {
-    Authorization: API_TOKEN,
     'Content-Type': 'application/json',
   },
+});
+
+const authApi = axios.create({
+  baseURL: STRAPI_API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+authApi.interceptors.request.use((config) => {
+  const token = localStorage.getItem('jwt');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 const getAttrs = <T>(item: any): T => item?.attributes || item;
@@ -69,32 +82,18 @@ export const strapiService = {
     categoryIds: string[] = []
   ): Promise<PagedResponse<FormattedProduct>> => {
     const filters: any = {};
-
-    if (search) {
-      filters.title = { $containsi: search };
-    }
-
-    if (categoryIds.length > 0) {
-      filters.productCategory = { documentId: { $in: categoryIds } };
-    }
+    if (search) filters.title = { $containsi: search };
+    if (categoryIds.length > 0) filters.productCategory = { documentId: { $in: categoryIds } };
 
     const query = qs.stringify(
-      {
-        populate: ['images', 'productCategory'],
-        pagination: { start, limit },
-        filters,
-      },
+      { populate: ['images', 'productCategory'], pagination: { start, limit }, filters },
       { encodeValuesOnly: true }
     );
 
     const {
       data: { data: items, meta },
     } = await api.get(`/products?${query}`);
-
-    return {
-      items: items.map(formatStrapiProduct),
-      total: meta.pagination.total,
-    };
+    return { items: items.map(formatStrapiProduct), total: meta.pagination.total };
   },
 
   getOneProduct: async (id: string): Promise<FormattedProduct> => {
@@ -102,11 +101,9 @@ export const strapiService = {
       { populate: ['images', 'productCategory'] },
       { encodeValuesOnly: true }
     );
-
     const {
       data: { data: item },
     } = await api.get(`/products/${id}?${query}`);
-
     return formatStrapiProduct(item);
   },
 
@@ -114,7 +111,51 @@ export const strapiService = {
     const {
       data: { data: items },
     } = await api.get<StrapiResponse<any[]>>('/product-categories');
-
     return items.map(formatStrapiCategory);
+  },
+
+  register: async (username: string, email: string, password: string) => {
+    const { data } = await api.post('/auth/local/register', { username, email, password });
+    if (data.jwt) localStorage.setItem('jwt', data.jwt);
+    return data;
+  },
+
+  login: async (identifier: string, password: string) => {
+    const { data } = await api.post('/auth/local', { identifier, password });
+    if (data.jwt) localStorage.setItem('jwt', data.jwt);
+    return data;
+  },
+
+  getCart: async () => {
+    const query = qs.stringify(
+      {
+        populate: ['product', 'product.images'],
+      },
+      { encodeValuesOnly: true }
+    );
+
+    const { data } = await authApi.get(`/carts?${query}`);
+    return data.data;
+  },
+
+  addToCart: async (productId: number | string) => {
+    const { data } = await authApi.post('/carts', {
+      data: {
+        product: productId,
+        quantity: 1,
+      },
+    });
+    return data;
+  },
+
+  removeFromCart: async (cartItemId: string | number) => {
+    await authApi.delete(`/carts/${cartItemId}`);
+  },
+
+  updateCartQuantity: async (cartItemId: string | number, quantity: number) => {
+    const { data } = await authApi.put(`/carts/${cartItemId}`, {
+      data: { quantity },
+    });
+    return data;
   },
 };

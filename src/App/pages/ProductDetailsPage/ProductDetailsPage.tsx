@@ -1,9 +1,12 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 
-import { BackButton, Card, Text, Button } from 'components';
-import ProductDetailsStore from '../../../store/ProductDetailsStore';
+import { BackButton, Text, Button, Loader } from 'components';
+import { RelatedItemList } from './components/RelatedItemList';
+import ProductDetailsStore from 'store/ProductDetailsStore';
+import { useCartActions } from 'hooks/useCartActions';
 
 import styles from './ProductDetailsPage.module.scss';
 
@@ -18,6 +21,8 @@ const ProductDetailsPage = ({ id: propsId }: ProductCardProps) => {
 
   const [store] = useState(() => new ProductDetailsStore());
 
+  const { handleAddToCart } = useCartActions();
+
   useEffect(() => {
     if (typeof id === 'string') {
       void store.fetchData(id);
@@ -28,7 +33,18 @@ const ProductDetailsPage = ({ id: propsId }: ProductCardProps) => {
 
   const handleBackClick = () => navigate(-1);
 
-  if (!store.isInitialized) return null;
+  const handleBuyNow = (e: React.MouseEvent, product: any) => {
+    handleAddToCart(e, product);
+    navigate('/cart-page');
+  };
+
+  if (!store.isInitialized) {
+    return (
+      <div className={styles.loaderWrapper}>
+        <Loader size="l" />
+      </div>
+    );
+  }
 
   if (!store.product) {
     return (
@@ -39,7 +55,7 @@ const ProductDetailsPage = ({ id: propsId }: ProductCardProps) => {
     );
   }
 
-  const { product } = store;
+  const { product, relatedProducts } = store;
 
   return (
     <div className={styles.productDetail}>
@@ -65,47 +81,26 @@ const ProductDetailsPage = ({ id: propsId }: ProductCardProps) => {
               </Text>
             </div>
 
-            <Text weight="bold" className={styles.price}>
+            <Text weight="bold" className={styles.price} view="p-20">
               ${product.price}
             </Text>
 
             <div className={styles.button}>
-              <Button disabled={!product.isInStock}>
+              <Button disabled={!product.isInStock} onClick={(e) => handleBuyNow(e, product)}>
                 {product.isInStock ? 'Buy Now' : 'Not Available'}
               </Button>
-              <Button disabled={!product.isInStock} className={styles.buttonAdd}>
+
+              <Button
+                disabled={!product.isInStock}
+                className={styles.buttonAdd}
+                onClick={(e) => handleAddToCart(e, product)}
+              >
                 {product.isInStock ? 'Add To Cart' : 'Not Available'}
               </Button>
             </div>
           </div>
         </section>
-
-        <section className={styles.relatedItems}>
-          <div className={styles.relatedItemsTitle}>
-            <Text view="title" weight="bold">
-              Related Items
-            </Text>
-          </div>
-
-          <div className={styles.relatedItemsGrid}>
-            {store.relatedProducts.map((item) => (
-              <Card
-                key={item.documentId}
-                image={item.image}
-                title={item.title}
-                subtitle={item.description}
-                captionSlot={item.category}
-                contentSlot={`$${item.price}`}
-                onClick={() => navigate(`/product-card/${item.documentId}`)}
-                actionSlot={
-                  <Button disabled={!item.isInStock}>
-                    {item.isInStock ? 'Add To Cart' : 'Not Available'}
-                  </Button>
-                }
-              />
-            ))}
-          </div>
-        </section>
+        <RelatedItemList items={relatedProducts} />
       </div>
     </div>
   );
