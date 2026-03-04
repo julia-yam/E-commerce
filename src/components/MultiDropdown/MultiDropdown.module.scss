@@ -1,33 +1,45 @@
 @use 'styles/variables.scss' as *;
 @use 'styles/mixins' as *;
 
-.multi-dropdown__options {
-  background-color: $dropdown-options-bg;
-  margin-top: $space-xxs;
+.multiDropdown {
+  position: relative;
   width: 100%;
-  box-shadow: $shadow;
-  font-family: 'Roboto', sans-serif;
 
-  &.view_p-16 {
-    @include adaptive-font(14, 16);
-    @include adaptive-lh(18, 20);
+  &Options {
+    background-color: $dropdown-options-bg;
+    position: absolute;
+    z-index: 10;
+    margin-top: $space-xxs;
+    width: 100%;
+    box-shadow: $shadow;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  &Item {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding: $space-s $space-xs;
+    cursor: pointer;
+
+    &:hover {
+      color: $text-secondary;
+    }
+
+    &Selected {
+      &,
+      &:hover {
+        color: $brand;
+      }
+    }
   }
 }
 
-.multi-dropdown__item {
-  height: 48px;
-  display: flex;
-  align-items: center;
-  padding: $space-s $space-xs;
+.viewP16 {
+  @include adaptive-font(14, 16);
+  @include adaptive-lh(18, 20);
+}
 
-  &:hover {
-    color: $text-secondary;
-  }
-
-  &--selected {
-    &,
-    &:hover {
-      color: $brand;
-    }
-  }
+.weightNormal {
+  font-weight: 400;
 }

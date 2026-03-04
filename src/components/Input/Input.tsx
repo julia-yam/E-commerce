@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react';
-import styles from './Input.module.scss';
+
 import { type InputProps, getInputWrapperClasses } from './configs';
+
+import styles from './Input.module.scss';
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ value, onChange, afterSlot, className = '', ...rest }, ref) => {
@@ -14,17 +16,17 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     );
 
     return (
-      <div className={wrapperClasses}>
+      <label className={wrapperClasses}>
         <input
           {...rest}
           type="text"
           ref={ref}
-          className={styles['input-wrapper__field']}
+          className={styles.inputWrapperField}
           value={value}
           onChange={handleChange}
         />
-        {afterSlot && <div className={styles['input-wrapper__after']}>{afterSlot}</div>}
-      </div>
+        {afterSlot && <div className={styles.inputWrapperAfter}>{afterSlot}</div>}
+      </label>
     );
   }
 );

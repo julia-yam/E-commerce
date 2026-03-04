@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
+
 import { Input, ArrowDownIcon } from 'components';
-import styles from './MultiDropdown.module.scss';
+
 import { type MultiDropdownProps, type Option, getFilteredOptions } from './configs';
+
+import styles from './MultiDropdown.module.scss';
 
 const MultiDropdown: React.FC<MultiDropdownProps> = ({
   className,
@@ -62,7 +65,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
   const displayValue = isOpen ? filter : value.length > 0 ? getTitle(value) : '';
 
   return (
-    <div className={`multi-dropdown ${className || ''}`} ref={rootRef}>
+    <div className={`${styles.multiDropdown} ${className || ''}`} ref={rootRef}>
       <Input
         disabled={disabled}
         placeholder={getTitle(value)}
@@ -74,13 +77,11 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
       />
 
       {isOpen && !disabled && filteredOptions.length > 0 && (
-        <div
-          className={`${styles['multi-dropdown__options']} ${styles['_view_p-16']} ${styles['_weight_normal']}`}
-        >
+        <div className={`${styles.multiDropdownOptions} ${styles.viewP16} ${styles.weightNormal}`}>
           {filteredOptions.map((option) => {
             const isSelected = value.some((v) => v.key === option.key);
-            const itemClasses = `${styles['multi-dropdown__item']} ${
-              isSelected ? styles['multi-dropdown__item--selected'] : ''
+            const itemClasses = `${styles.multiDropdownItem} ${
+              isSelected ? styles.multiDropdownItemSelected : ''
             }`.trim();
 
             return (

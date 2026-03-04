@@ -6,11 +6,7 @@ $container-width: 1240px;
 
 .productPage {
     width: 100%;
-    overflow-x: hidden;
-
-    .virtualizedList {
-        outline: none;
-    }
+    overflow: visible;
 
     .infoProduct {
         max-width: 653px;
@@ -19,11 +15,9 @@ $container-width: 1240px;
     }
 
     .searchProduct {
+        @include container-layout;
         display: flex;
         flex-direction: column;
-        max-width: $container-width;
-        margin: 0 auto;
-        padding: 0 f.rem(16);
 
         .search {
             margin-bottom: f.rem(35);
@@ -33,5 +27,8 @@ $container-width: 1240px;
             width: 100%;
         }
     }
+}
 
+.virtualizedList {
+    outline: none;
 }

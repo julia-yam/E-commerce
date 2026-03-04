@@ -113,49 +113,4 @@ export const strapiService = {
     } = await api.get<StrapiResponse<any[]>>('/product-categories');
     return items.map(formatStrapiCategory);
   },
-
-  register: async (username: string, email: string, password: string) => {
-    const { data } = await api.post('/auth/local/register', { username, email, password });
-    if (data.jwt) localStorage.setItem('jwt', data.jwt);
-    return data;
-  },
-
-  login: async (identifier: string, password: string) => {
-    const { data } = await api.post('/auth/local', { identifier, password });
-    if (data.jwt) localStorage.setItem('jwt', data.jwt);
-    return data;
-  },
-
-  getCart: async () => {
-    const query = qs.stringify(
-      {
-        populate: ['product', 'product.images'],
-      },
-      { encodeValuesOnly: true }
-    );
-
-    const { data } = await authApi.get(`/carts?${query}`);
-    return data.data;
-  },
-
-  addToCart: async (productId: number | string) => {
-    const { data } = await authApi.post('/carts', {
-      data: {
-        product: productId,
-        quantity: 1,
-      },
-    });
-    return data;
-  },
-
-  removeFromCart: async (cartItemId: string | number) => {
-    await authApi.delete(`/carts/${cartItemId}`);
-  },
-
-  updateCartQuantity: async (cartItemId: string | number, quantity: number) => {
-    const { data } = await authApi.put(`/carts/${cartItemId}`, {
-      data: { quantity },
-    });
-    return data;
-  },
 };

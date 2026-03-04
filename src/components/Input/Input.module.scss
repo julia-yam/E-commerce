@@ -1,29 +1,32 @@
 @use 'styles/variables.scss' as *;
 @use 'styles/mixins' as *;
 
-.input-wrapper {
+.inputWrapper {
   display: flex;
   align-items: center;
   box-sizing: border-box;
   background-color: $input-bg;
   border: 1px solid $input-border;
   border-radius: $border-radius;
-  padding: $space-s $space-xs;
+  padding: 0;
   height: 52px;
+  cursor: pointer;
 
   @include adaptive-font(14, 16);
   @include adaptive-lh(18, 20);
 
-  &__field {
+  &Field {
     flex: 1;
+    height: 100%;
     border: none;
     outline: none;
     background: transparent;
     margin: 0;
-    padding: 0;
+    padding: $space-s $space-xs;
     font-size: inherit;
     line-height: inherit;
     color: $input-text;
+    cursor: inherit;
 
     &::placeholder {
       color: $input-placeholder;
@@ -39,15 +42,21 @@
     border-color: $brand;
   }
 
-  &--disabled {
+  &Disabled {
     background-color: $input-bg-disabled;
     border-color: $input-border-disabled;
     cursor: not-allowed;
   }
 
-  &__after {
+  &After {
     display: flex;
     align-items: center;
     margin-left: $space-xxs;
+    margin-right: $space-xs;
+    cursor: inherit;
+
+    * {
+      cursor: inherit;
+    }
   }
 }

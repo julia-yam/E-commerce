@@ -1,10 +1,11 @@
 import { makeObservable, observable, action, computed, reaction } from 'mobx';
-import { strapiService } from 'api/strapi.ts';
-import { type FormattedProduct } from 'api/types.ts';
-import { type Option } from 'components/Search/configs.ts';
+
+import { strapiService } from 'api/strapi';
+import { type FormattedProduct } from 'api/types';
+import { type Option } from 'components/Search/configs';
 import FilterStore from 'store/FilterStore';
 
-export interface ILocalStore {
+interface ILocalStore {
   destroy(): void;
 }
 

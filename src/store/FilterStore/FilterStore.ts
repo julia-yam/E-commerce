@@ -1,7 +1,8 @@
 import { makeObservable, observable, action, computed, reaction } from 'mobx';
 import type { IReactionDisposer } from 'mobx';
-import { type FormattedProduct } from 'api/types.ts';
-import { type Option } from 'components/Search/configs.ts';
+
+import { type FormattedProduct } from 'api/types';
+import { type Option } from 'components/Search/configs';
 import ProductListStore from 'store/ProductListStore';
 
 type PrivateFields = '_searchQuery' | '_selectedCategories';
@@ -30,8 +31,12 @@ export default class FilterStore {
 
     this._reactionDisposer = reaction(
       () => this._selectedCategories,
-      () => {
-        this._dataStore.fetchData();
+      async () => {
+        try {
+          await this._dataStore.fetchData();
+        } catch (error) {
+          console.error(error);
+        }
       }
     );
   }
@@ -48,9 +53,13 @@ export default class FilterStore {
     return this._dataStore.products;
   }
 
-  setSearchQuery(value: string): void {
+  async setSearchQuery(value: string): Promise<void> {
     this._searchQuery = value;
-    this._dataStore.fetchData();
+    try {
+      await this._dataStore.fetchData();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   setSearchQueryOnly(value: string): void {

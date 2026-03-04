@@ -1,7 +1,10 @@
 import React from 'react';
-import { Text } from 'components/index.ts';
+
+import { Text } from 'components';
+
+import { type InfoProductsProps, INFO_TEXTS, DESCRIPTION_MAX_LINES } from './configs';
+
 import styles from './InfoProducts.module.scss';
-import { type InfoProductsProps, INFO_TEXTS, DESCRIPTION_MAX_LINES } from './configs.ts';
 
 const InfoProducts: React.FC<InfoProductsProps> = ({ className }) => {
   return (

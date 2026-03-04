@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import styles from './Search.module.scss';
+
 import { Input, MultiDropdown, Button, Text } from 'components';
 
 import { type SearchProps, TEXTS, getDropdownTitle } from './configs';
+
+import styles from './Search.module.scss';
 
 const Search: React.FC<SearchProps> = ({
   className,

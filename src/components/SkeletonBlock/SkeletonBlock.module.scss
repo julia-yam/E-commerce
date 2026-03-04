@@ -1,0 +1,25 @@
+@use 'styles/functions' as f;
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeletonBlock {
+  width: var(--width-value, 100%);
+  height: var(--height-value, 1rem);
+
+  display: block;
+  flex-shrink: 0;
+
+  background: linear-gradient(
+                  90deg,
+                  rgba(217, 217, 217, 0) 0%,
+                  rgba(171, 171, 171, 0.7) 60%,
+                  rgba(171, 171, 171, 0.55) 70.5%,
+                  rgba(217, 217, 217, 0) 98%
+  );
+
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite linear;
+}

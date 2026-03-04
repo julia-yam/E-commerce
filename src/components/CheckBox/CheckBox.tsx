@@ -1,7 +1,10 @@
 import React from 'react';
+
 import { CheckIcon } from 'components';
-import styles from './CheckBox.module.scss';
+
 import { type CheckBoxProps, CHECK_ICON_CONFIG, getCheckBoxClasses } from './configs';
+
+import styles from './CheckBox.module.scss';
 
 const CheckBox: React.FC<CheckBoxProps> = ({ onChange, checked, className, disabled, ...rest }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

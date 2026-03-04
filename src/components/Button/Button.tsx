@@ -1,8 +1,11 @@
 import React from 'react';
 import cn from 'classnames';
+
 import { Text, Loader } from 'components';
-import styles from './Button.module.scss';
+
 import { type ButtonProps, BUTTON_TEXT_CONFIG, BUTTON_LOADER_SIZE } from './configs';
+
+import styles from './Button.module.scss';
 
 const Button: React.FC<ButtonProps> = ({
   loading = false,

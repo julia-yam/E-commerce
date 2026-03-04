@@ -16,3 +16,5 @@ export * from './Logo';
 export * from './MultiDropdown';
 export * from './Search';
 export * from './Text';
+export * from './QuantityControl';
+export * from './ProductAction';

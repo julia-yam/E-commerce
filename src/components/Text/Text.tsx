@@ -1,8 +1,9 @@
 import * as React from 'react';
 import cn from 'classnames';
-import styles from './Text.module.scss';
 
 import { type TextProps, getMaxLinesStyle } from './configs';
+
+import styles from './Text.module.scss';
 
 const Text: React.FC<TextProps> = ({
   className,
@@ -13,11 +14,17 @@ const Text: React.FC<TextProps> = ({
   weight,
   color,
 }) => {
+  const toPascalCase = (str: string) =>
+    str
+      .split('-')
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join('');
+
   const classes = cn(
     styles.text,
-    view && styles[`view_${view}`],
-    weight && styles[`weight_${weight}`],
-    color && styles[`color_${color}`],
+    view && styles[`view${toPascalCase(view)}`],
+    weight && styles[`weight${toPascalCase(weight)}`],
+    color && styles[`color${toPascalCase(color)}`],
     className
   );
 

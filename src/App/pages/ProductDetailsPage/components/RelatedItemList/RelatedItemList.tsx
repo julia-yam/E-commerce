@@ -1,9 +1,9 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
+import { useNavigate } from 'react-router-dom';
 
-import { Card, Text, Button } from 'components/index.ts';
-import { useCartActions } from 'hooks/useCartActions';
+import { Card, Text, ProductAction } from 'components';
+
 import styles from './RelatedItemList.module.scss';
 
 interface RelatedItem {
@@ -20,40 +20,41 @@ interface RelatedItemListProps {
   items: RelatedItem[];
 }
 
-const RelatedItemList: React.FC<RelatedItemListProps> = ({ items }) => {
-  const navigate = useNavigate();
-  const { handleAddToCart } = useCartActions();
+const ROUTES = {
+  PRODUCT_CARD: (id: string) => `/product-card/${id}`,
+};
 
-  if (items.length === 0) return null;
+export const RelatedItemList: React.FC<RelatedItemListProps> = observer(({ items }) => {
+  const navigate = useNavigate();
+
+  if (!items || items.length === 0) return null;
 
   return (
     <section className={styles.relatedItems}>
-      <div className={styles.relatedItemsTitle}>
-        <Text view="title" weight="bold">
-          Related Items
-        </Text>
-      </div>
+      <div className={styles.container}>
+        <div className={styles.relatedItemsTitle}>
+          <Text view="title" weight="bold">
+            Related Items
+          </Text>
+        </div>
 
-      <div className={styles.relatedItemsGrid}>
-        {items.map((item) => (
-          <Card
-            key={item.documentId}
-            image={item.image}
-            title={item.title}
-            subtitle={item.description}
-            captionSlot={item.category}
-            contentSlot={`$${item.price}`}
-            onClick={() => navigate(`/product-card/${item.documentId}`)}
-            actionSlot={
-              <Button disabled={!item.isInStock} onClick={(e) => handleAddToCart(e, item)}>
-                {item.isInStock ? 'Add To Cart' : 'Not Available'}
-              </Button>
-            }
-          />
-        ))}
+        <div className={styles.relatedItemsGrid}>
+          {items.map((item) => (
+            <Card
+              key={item.documentId}
+              image={item.image}
+              title={item.title}
+              subtitle={item.description}
+              captionSlot={item.category}
+              contentSlot={`$${item.price}`}
+              onClick={() => navigate(ROUTES.PRODUCT_CARD(item.documentId))}
+              actionSlot={<ProductAction product={item} />}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );
-};
+});
 
-export default observer(RelatedItemList);
+export default RelatedItemList;

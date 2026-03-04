@@ -1,8 +1,9 @@
 import { type RouteObject } from 'react-router';
-import App from '../App/App.tsx';
-import ProductDetailsPage from '../App/pages/ProductDetailsPage/ProductDetailsPage.tsx';
-import ProductPage from '../App/pages/ProductPage/ProductPage.tsx';
-import CartPage from '../App/pages/CartPage/CartPage.tsx';
+
+import App from '../App/App';
+import CartPage from '../App/pages/CartPage/CartPage';
+import ProductDetailsPage from '../App/pages/ProductDetailsPage/ProductDetailsPage';
+import ProductPage from '../App/pages/ProductPage/ProductPage';
 
 export const routesConfig: RouteObject[] = [
   {

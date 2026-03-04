@@ -1,9 +1,10 @@
 import { makeObservable, observable, action, computed, reaction } from 'mobx';
 import type { IReactionDisposer } from 'mobx';
-import { strapiService } from 'api/strapi.ts';
-import { type FormattedProduct } from 'api/types.ts';
 
-export interface ILocalStore {
+import { strapiService } from 'api/strapi';
+import { type FormattedProduct } from 'api/types';
+
+interface ILocalStore {
   destroy(): void;
 }
 
@@ -44,16 +45,6 @@ export default class ProductDetailsStore implements ILocalStore {
     );
   }
 
-  get filteredRelatedProducts() {
-    if (!this.product) return [];
-
-    return this.relatedProducts.filter((item) => {
-      return (
-        item.category === this.product?.category && item.documentId !== this.product?.documentId
-      );
-    });
-  }
-
   get product(): FormattedProduct | null {
     return this._product;
   }
@@ -66,7 +57,7 @@ export default class ProductDetailsStore implements ILocalStore {
     return this._isInitialized;
   }
 
-  private _setData(product: FormattedProduct, related: FormattedProduct[]): void {
+  private _setData(product: FormattedProduct | null, related: FormattedProduct[]): void {
     this._product = product;
     this._relatedProducts = related;
   }
@@ -79,16 +70,31 @@ export default class ProductDetailsStore implements ILocalStore {
     try {
       const [targetProduct, allProductsResponse] = await Promise.all([
         strapiService.getOneProduct(id),
-        strapiService.getProducts(),
+        strapiService.getProducts(0, 100),
       ]);
 
-      const productsArray = allProductsResponse.items || [];
+      if (!targetProduct) {
+        this._setData(null, []);
+        return;
+      }
 
-      const related = productsArray.filter((item) => item.documentId !== id).slice(0, 3);
+      const productsArray = allProductsResponse?.items || [];
 
-      this._setData(targetProduct, related);
+      console.log(`Скачано товаров: ${productsArray.length} из ${allProductsResponse?.total}`);
+
+      let related = productsArray.filter((item) => {
+        const itemCat = item.category?.toLowerCase().trim() || '';
+        const targetCat = targetProduct.category?.toLowerCase().trim() || '';
+
+        return itemCat === targetCat && item.documentId !== id;
+      });
+
+      const finalRelated = related.slice(0, 3);
+
+      this._setData(targetProduct, finalRelated);
     } catch (err) {
       console.error('Failed to fetch product details:', err);
+      this._setData(null, []);
     } finally {
       this._setInitialized(true);
     }

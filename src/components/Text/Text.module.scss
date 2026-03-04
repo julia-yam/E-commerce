@@ -5,54 +5,58 @@
   color: inherit;
   margin: 0;
   font-family: 'Roboto', sans-serif;
+}
 
-  &.weight_normal {
-    font-weight: 400;
-  }
-  &.weight_medium {
-    font-weight: 500;
-  }
-  &.weight_bold {
-    font-weight: 700;
-  }
+.weightNormal {
+  font-weight: 400;
+}
 
-  &.color_primary {
-    color: $text-primary;
-  }
-  &.color_secondary {
-    color: $text-secondary;
-  }
-  &.color_accent {
-    color: $brand;
-  }
+.weightMedium {
+  font-weight: 500;
+}
 
-  &.view_title {
-    @include adaptive-font(24, 32);
-    @include adaptive-lh(30, 40);
-  }
+.weightBold {
+  font-weight: 700;
+}
 
-  &.view_button {
-    @include adaptive-font(16, 18);
-    @include adaptive-lh(16, 18);
-  }
+.colorPrimary {
+  color: $text-primary;
+}
 
-  &.view_p-20 {
-    @include adaptive-font(18, 20);
-    @include adaptive-lh(22, 24);
-  }
+.colorSecondary {
+  color: $text-secondary;
+}
 
-  &.view_p-18 {
-    @include adaptive-font(16, 18);
-    @include adaptive-lh(20, 22);
-  }
+.colorAccent {
+  color: $brand;
+}
 
-  &.view_p-16 {
-    @include adaptive-font(14, 16);
-    @include adaptive-lh(18, 20);
-  }
+.viewTitle {
+  @include adaptive-font(24, 32);
+  @include adaptive-lh(30, 40);
+}
 
-  &.view_p-14 {
-    font-size: 14px;
-    line-height: 18px;
-  }
+.viewButton {
+  @include adaptive-font(16, 18);
+  @include adaptive-lh(16, 18);
+}
+
+.viewP20 {
+  @include adaptive-font(18, 20);
+  @include adaptive-lh(22, 24);
+}
+
+.viewP18 {
+  @include adaptive-font(16, 18);
+  @include adaptive-lh(20, 22);
+}
+
+.viewP16 {
+  @include adaptive-font(14, 16);
+  @include adaptive-lh(18, 20);
+}
+
+.viewP14 {
+  font-size: 14px;
+  line-height: 18px;
 }

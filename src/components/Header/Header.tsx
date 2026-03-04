@@ -1,7 +1,10 @@
 import { Link } from 'react-router';
+
 import { Logo, Text, UserIcon, BagIcon } from 'components';
-import styles from './Header.module.scss';
+
 import { NAV_ITEMS, ACTION_ICONS_CONFIG } from './configs';
+
+import styles from './Header.module.scss';
 
 const Header = () => (
   <header className={styles.header}>

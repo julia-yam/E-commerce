@@ -11,7 +11,8 @@ export const getInputWrapperClasses = (
   className: string,
   disabled?: boolean
 ): string => {
-  return `${styles['input-wrapper']} ${className} ${
-    disabled ? styles['input-wrapper--disabled'] : ''
-  }`.trim();
+  const baseClass = styles.inputWrapper;
+  const disabledClass = disabled ? styles.inputWrapperDisabled : '';
+
+  return `${baseClass} ${className} ${disabledClass}`.trim();
 };

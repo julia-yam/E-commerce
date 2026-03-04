@@ -1,8 +1,12 @@
 import React from 'react';
 import cn from 'classnames';
+
 import { Text } from 'components';
-import styles from './Card.module.scss';
+import { SkeletonBlock } from 'components/SkeletonBlock';
+
 import { type CardProps, CARD_TEXT_CONFIG } from './configs';
+
+import styles from './Card.module.scss';
 
 const Card: React.FC<CardProps> = ({
   className,
@@ -21,36 +25,34 @@ const Card: React.FC<CardProps> = ({
     className
   );
 
-  const imageAlt = typeof title === 'string' ? title : '';
-
-  const handleActionClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-  };
-
   if (isLoading) {
     return (
       <div className={classes}>
         <div className={styles.cardHeader}>
-          <div className={styles.skeletonImage} />
+          <SkeletonBlock height="100%" />
         </div>
 
         <div className={styles.cardBody}>
           <div className={styles.cardBodyMain}>
-            <div className={styles.skeletonOverline} />
-            <div className={styles.skeletonTitle} />
-            <div className={styles.skeletonDescription} />
-            <div className={styles.skeletonDescription} />
-            <div className={styles.skeletonDescription} />
+            <SkeletonBlock width="65%" height={18} />
+            <SkeletonBlock width="100%" height={43} />
+
+            <SkeletonBlock width="100%" height={14} />
+            <SkeletonBlock width="100%" height={14} />
+            <SkeletonBlock width="100%" height={14} />
           </div>
         </div>
 
         <div className={styles.cardFooter}>
           <div />
-          <div className={styles.skeletonButton} />
+          <SkeletonBlock width={149} height={52} />
         </div>
       </div>
     );
   }
+
+  const imageAlt = typeof title === 'string' ? title : '';
+  const handleActionClick = (e: React.MouseEvent) => e.stopPropagation();
 
   return (
     <div
@@ -66,11 +68,9 @@ const Card: React.FC<CardProps> = ({
       <div className={styles.cardBody}>
         <div className={styles.cardBodyMain}>
           {captionSlot && <Text {...CARD_TEXT_CONFIG.caption}>{captionSlot}</Text>}
-
           <div data-testid="text">
             <Text {...CARD_TEXT_CONFIG.title}>{title}</Text>
           </div>
-
           <div data-testid="text">
             <Text {...CARD_TEXT_CONFIG.subtitle}>{subtitle}</Text>
           </div>
@@ -83,7 +83,6 @@ const Card: React.FC<CardProps> = ({
             {contentSlot}
           </Text>
         )}
-
         {actionSlot && (
           <div className={styles.cardAction} onClick={handleActionClick}>
             {actionSlot}

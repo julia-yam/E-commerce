@@ -1,4 +1,5 @@
 @use 'styles/functions' as f;
+@use 'styles/variables' as *;
 
 $breakpoints: (
         "desktop-md": 1440px,
@@ -33,28 +34,40 @@ $breakpoints: (
   }
 }
 
-@mixin fluid-text($min-size, $max-size, $min-breakpoint: 320, $max-breakpoint: 1440) {
-  $slope: ($max-size - $min-size) / ($max-breakpoint - $min-breakpoint);
-  $y-axis-intersection: -$min-breakpoint * $slope + $min-size;
+@mixin adaptive-margin-vertical($top-desktop, $bottom-desktop) {
+  $min-t: $top-desktop * 0.4;
+  $min-b: $bottom-desktop * 0.4;
 
-  font-size: clamp(#{$min-size}px, #{$y-axis-intersection / 16}rem + #{$slope * 100}vw, #{$max-size}px);
-}
-
-@mixin adaptive-margin($top, $right, $bottom, $left) {
-  $min-t: $top * 0.1;
-  $min-r: $right * 0.1;
-  $min-b: $bottom * 0.4;
-  $min-l: $left * 0.01;
-
-  margin:
-          clamp(f.rem($min-t), fluid-calc($min-t, $top), f.rem($top))
-          clamp(f.rem($min-r), fluid-calc($min-r, $right), f.rem($right))
-          clamp(f.rem($min-b), fluid-calc($min-b, $bottom), f.rem($bottom))
-          clamp(f.rem($min-l), fluid-calc($min-l, $left), f.rem($left));
+  margin-top: clamp(f.rem($min-t), fluid-calc($min-t, $top-desktop), f.rem($top-desktop));
+  margin-bottom: clamp(f.rem($min-b), fluid-calc($min-b, $bottom-desktop), f.rem($bottom-desktop));
 }
 
 @mixin adaptive-gap($max-size, $min-size: 8) {
   gap: clamp(f.rem($min-size), 4vw, f.rem($max-size));
+}
+
+@mixin container-layout($max-width: 1240px) {
+  max-width: $max-width;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+
+  @include respond-down("laptop") {
+    padding-left: $space-s;
+    padding-right: $space-s;
+  }
+}
+
+@mixin container-asymmetric($max-width: 1240px) {
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: calc((100% - #{$max-width}) / 2);
+  padding-right: $space-l;
+
+  @include respond-down("laptop") {
+    padding-left: $space-l;
+  }
 }
 
 @include respond-down("laptop") {

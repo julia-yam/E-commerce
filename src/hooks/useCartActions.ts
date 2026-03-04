@@ -1,5 +1,5 @@
-import React from 'react';
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
+
 import cartStore from 'store/CartStore';
 
 export const useCartActions = () => {

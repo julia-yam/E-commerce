@@ -1,8 +1,11 @@
 import React from 'react';
 import cn from 'classnames';
+
 import { Text, ArrowRightIcon } from 'components';
-import styles from './BackButton.module.scss';
+
 import { type BackButtonProps, BACK_BUTTON_TEXT_CONFIG, BACK_ICON_CONFIG } from './configs';
+
+import styles from './BackButton.module.scss';
 
 const BackButton: React.FC<BackButtonProps> = ({ children, className, ...props }) => {
   return (

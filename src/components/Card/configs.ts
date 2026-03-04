@@ -10,6 +10,7 @@ export type CardProps = {
   onClick?: React.MouseEventHandler;
   actionSlot?: React.ReactNode;
   isLoading?: boolean;
+  onImageLoad?: () => void;
 };
 
 export const CARD_TEXT_CONFIG = {

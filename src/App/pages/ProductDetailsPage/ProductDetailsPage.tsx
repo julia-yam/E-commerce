@@ -1,40 +1,40 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
+import { useParams, useNavigate } from 'react-router-dom';
 
-import { BackButton, Text, Button, Loader } from 'components';
-import { RelatedItemList } from './components/RelatedItemList';
+import cartStore from 'store/CartStore';
 import ProductDetailsStore from 'store/ProductDetailsStore';
+import { BackButton, Text, Button, Loader, ProductAction } from 'components';
 import { useCartActions } from 'hooks/useCartActions';
+
+import { RelatedItemList } from './components/RelatedItemList';
 
 import styles from './ProductDetailsPage.module.scss';
 
-interface ProductCardProps {
-  id?: string;
-}
-
-const ProductDetailsPage = ({ id: propsId }: ProductCardProps) => {
+const ProductDetailsPage = observer(({ id: propsId }: { id?: string }) => {
   const params = useParams<{ id: string }>();
   const navigate = useNavigate();
   const id = propsId || params.id;
 
   const [store] = useState(() => new ProductDetailsStore());
-
   const { handleAddToCart } = useCartActions();
 
   useEffect(() => {
-    if (typeof id === 'string') {
-      void store.fetchData(id);
-    }
-
+    if (id) store.fetchData(id);
     return () => store.destroy();
   }, [id, store]);
 
   const handleBackClick = () => navigate(-1);
 
   const handleBuyNow = (e: React.MouseEvent, product: any) => {
-    handleAddToCart(e, product);
+    const isInCart = cartStore.items.some(
+      (item) =>
+        item.product.id === product.documentId || item.product.documentId === product.documentId
+    );
+
+    if (!isInCart) {
+      handleAddToCart(e, product);
+    }
     navigate('/cart-page');
   };
 
@@ -49,8 +49,10 @@ const ProductDetailsPage = ({ id: propsId }: ProductCardProps) => {
   if (!store.product) {
     return (
       <div className={styles.productDetail}>
-        <Text view="title">Product not found</Text>
-        <Button onClick={handleBackClick}>Back</Button>
+        <div className={styles.container}>
+          <Text view="title">Product not found</Text>
+          <Button onClick={handleBackClick}>Back</Button>
+        </div>
       </div>
     );
   }
@@ -59,51 +61,54 @@ const ProductDetailsPage = ({ id: propsId }: ProductCardProps) => {
 
   return (
     <div className={styles.productDetail}>
-      <div className={styles.back}>
-        <BackButton onClick={handleBackClick} className={styles.backButton}>
-          Назад
-        </BackButton>
-      </div>
+      <div className={styles.container}>
+        <div className={styles.back}>
+          <BackButton onClick={handleBackClick} className={styles.backButton}>
+            Назад
+          </BackButton>
+        </div>
 
-      <div className={styles.productBody}>
-        <section className={styles.product}>
-          <div className={styles.img}>
-            <img src={product.image} alt={product.title} className={styles.cardImage} />
-          </div>
-
-          <div className={styles.details}>
-            <div className={styles.description}>
-              <Text className={styles.title} weight="bold" maxLines={2}>
-                {product.title}
-              </Text>
-              <Text view="p-20" weight="normal" tag="p" color="secondary" maxLines={3}>
-                {product.description}
-              </Text>
+        <div className={styles.productBody}>
+          <section className={styles.product}>
+            <div className={styles.img}>
+              <img src={product.image} alt={product.title} className={styles.cardImage} />
             </div>
 
-            <Text weight="bold" className={styles.price} view="p-20">
-              ${product.price}
-            </Text>
+            <div className={styles.details}>
+              <div className={styles.description}>
+                <Text className={styles.title} weight="bold" maxLines={2}>
+                  {product.title}
+                </Text>
+                <Text view="p-20" weight="normal" tag="p" color="secondary">
+                  {product.description}
+                </Text>
+              </div>
 
-            <div className={styles.button}>
-              <Button disabled={!product.isInStock} onClick={(e) => handleBuyNow(e, product)}>
-                {product.isInStock ? 'Buy Now' : 'Not Available'}
-              </Button>
+              <Text weight="bold" className={styles.price} view="p-20">
+                ${product.price}
+              </Text>
 
-              <Button
-                disabled={!product.isInStock}
-                className={styles.buttonAdd}
-                onClick={(e) => handleAddToCart(e, product)}
-              >
-                {product.isInStock ? 'Add To Cart' : 'Not Available'}
-              </Button>
+              <div className={styles.actionsBlock}>
+                <Button
+                  disabled={!product.isInStock}
+                  onClick={(e) => handleBuyNow(e, product)}
+                  className={styles.buyNow}
+                >
+                  {product.isInStock ? 'Buy Now' : 'Not Available'}
+                </Button>
+
+                <div className={styles.cartActionWrapper}>
+                  <ProductAction product={product} />
+                </div>
+              </div>
             </div>
-          </div>
-        </section>
-        <RelatedItemList items={relatedProducts} />
+          </section>
+        </div>
       </div>
+
+      <RelatedItemList items={relatedProducts} />
     </div>
   );
-};
+});
 
-export default observer(ProductDetailsPage);
+export default ProductDetailsPage;

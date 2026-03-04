@@ -1,7 +1,9 @@
 import * as React from 'react';
 import cn from 'classnames';
-import styles from './Icon.module.scss';
+
 import { type IconProps, ICON_DEFAULTS } from './configs';
+
+import styles from './Icon.module.scss';
 
 const Icon: React.FC<React.PropsWithChildren<IconProps>> = ({
   children,
