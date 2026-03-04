@@ -6,8 +6,7 @@
   flex: 0 0 350px;
   padding: $space-m;
   background: $screen--color;
-  border: 1px solid #eee;
-  border-radius: 12px;
+  border: 2px solid $line-color;
   height: fit-content;
   position: sticky;
   top: 20px;
@@ -33,7 +32,7 @@
 
   hr {
     border: none;
-    border-top: 1px solid #eee;
+    border-top: 2px solid $line-color;
     margin: $space-s 0;
   }
 

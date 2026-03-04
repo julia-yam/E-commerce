@@ -1,21 +1,24 @@
 @use 'styles/variables.scss' as *;
 @use 'styles/mixins' as *;
-@use 'styles/functions' as f;
 
 .header {
+  position: sticky;
+  top: 0;
+  z-index: 1001;
+
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: $screen--color;
-  border-bottom: 2px solid $line-color;
 
   .nav {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     max-width: 1240px;
     width: 100%;
-    height: f.rem(90);
+    height: 90px;
+    border-bottom: 2px solid $line-color;
     box-sizing: border-box;
 
     @include respond-down("laptop") {
@@ -27,9 +30,8 @@
     display: flex;
     height: 100%;
     gap: $space-xl;
+    margin: 0;
     padding: 0;
-    margin-left: f.rem(330);
-    margin-right: auto;
     list-style: none;
 
     @include respond-down("tablet") {
@@ -64,6 +66,7 @@
         height: 2px;
         background-color: transparent;
         z-index: 2;
+        transition: background-color 0.2s ease;
       }
 
       &:hover {
