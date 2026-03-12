@@ -1,0 +1,16 @@
+@use 'styles/variables.scss' as *;
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loader {
+  color: $loader-bg;
+
+  animation: spin 3s linear infinite;
+}

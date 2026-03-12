@@ -1,0 +1,43 @@
+@use 'styles/variables.scss' as *;
+
+.button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-radius: $border-radius;
+  gap: $space-xxs;
+  padding: $space-s $space-l;
+  white-space: nowrap;
+  border: none;
+  cursor: pointer;
+  color: $button-primary-text;
+  background-color: $button-primary-bg;
+
+  & :global(.loader) {
+    color: $button-primary-text;
+  }
+
+  &:hover:not(.disabled) {
+    background-color: $button-primary-bg-hover;
+    color: $button-primary-text;
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    background-color: $button-primary-bg-disabled;
+    color: $button-primary-text;
+  }
+
+  &.loading {
+    &:hover {
+      background-color: $button-primary-bg;
+      color: $button-primary-text;
+    }
+
+    &.disabled:hover {
+      background-color: $button-primary-bg-disabled;
+      color: $button-primary-text;
+    }
+  }
+}

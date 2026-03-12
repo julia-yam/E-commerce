@@ -1,0 +1,89 @@
+@use 'styles/functions' as f;
+@use 'styles/variables' as *;
+
+$breakpoints: (
+        "desktop-md": 1440px,
+        "laptop": 1024px,
+        "tablet": 768px,
+        "mobile": 450px,
+);
+
+@function fluid-calc($min, $max) {
+  @return calc(#{$min}px + (#{$max} - #{$min}) * ((100vw - 320px) / (1440 - 320)));
+}
+
+@mixin _adaptive-value($property, $min, $max) {
+  #{$property}: clamp(#{$min}px, calc(#{$min}px + (#{$max} - #{$min}) * ((100vw - 320px) / (1440 - 320))), #{$max}px);
+}
+
+@mixin adaptive-font($min-size, $max-size) {
+  @include _adaptive-value(font-size, $min-size, $max-size);
+}
+
+@mixin adaptive-lh($min-lh, $max-lh) {
+  @include _adaptive-value(line-height, $min-lh, $max-lh);
+}
+
+@mixin respond-down($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    $value: map-get($breakpoints, $breakpoint);
+
+    @media (max-width: ($value - 0.02px)) {
+      @content;
+    }
+  }
+}
+
+@mixin adaptive-margin-vertical($top-desktop, $bottom-desktop) {
+  $min-t: $top-desktop * 0.4;
+  $min-b: $bottom-desktop * 0.4;
+
+  margin-top: clamp(f.rem($min-t), fluid-calc($min-t, $top-desktop), f.rem($top-desktop));
+  margin-bottom: clamp(f.rem($min-b), fluid-calc($min-b, $bottom-desktop), f.rem($bottom-desktop));
+}
+
+@mixin adaptive-gap($max-size, $min-size: 8) {
+  gap: clamp(f.rem($min-size), 4vw, f.rem($max-size));
+}
+
+@mixin container-layout($max-width: 1240px) {
+  max-width: $max-width;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+
+  @include respond-down("laptop") {
+    padding-left: $space-s;
+    padding-right: $space-s;
+  }
+}
+
+@mixin container-asymmetric($max-width: 1240px) {
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: calc((100% - #{$max-width}) / 2);
+  padding-right: $space-l;
+
+  @include respond-down("laptop") {
+    padding-left: $space-l;
+  }
+}
+
+@include respond-down("laptop") {
+  :root {
+    $space-xl: 32px;
+    $space-l: 24px;
+    $space-m: 20px;
+  }
+}
+
+@include respond-down("tablet") {
+  :root {
+    $space-xl: 24px;
+    $space-l: 20px;
+    $space-m: 16px;
+    $space-s: 12px;
+    $space-xs: 8px;
+  }
+}

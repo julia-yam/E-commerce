@@ -1,0 +1,52 @@
+@use 'styles/variables.scss' as *;
+
+.checkboxWrapper {
+  position: relative;
+  display: inline-flex;
+  width: 40px;
+  height: 40px;
+  box-sizing: border-box;
+
+  &Disabled {
+    .checkboxCustom {
+      background-color: $checkbox-bg-disabled;
+      border: $checkbox-border-disabled;
+      border-radius: $border-radius;
+      width: 100%;
+      height: 100%;
+    }
+
+    .checkboxIcon {
+      color: $checkbox-check-disabled;
+    }
+  }
+
+  &:not(&Disabled):hover {
+    .checkboxCustom {
+      border: 1px solid $brand;
+    }
+  }
+}
+
+.checkboxCustom {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: $checkbox-bg;
+  border: 1px solid $checkbox-border;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.checkboxInput {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.checkboxIcon {
+  margin: -1px;
+}

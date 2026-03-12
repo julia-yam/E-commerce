@@ -1,0 +1,34 @@
+@use 'styles/variables.scss' as *;
+@use 'styles/mixins' as *;
+@use 'styles/functions' as f;
+
+$container-width: 1240px;
+
+.productPage {
+    width: 100%;
+    overflow: visible;
+
+    .infoProduct {
+        max-width: 653px;
+        margin: f.rem(100) auto f.rem(50);
+        min-height: auto;
+    }
+
+    .searchProduct {
+        @include container-layout;
+        display: flex;
+        flex-direction: column;
+
+        .search {
+            margin-bottom: f.rem(35);
+        }
+
+        .listWrapper {
+            width: 100%;
+        }
+    }
+}
+
+.virtualizedList {
+    outline: none;
+}

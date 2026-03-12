@@ -1,0 +1,17 @@
+@use 'styles/variables.scss' as *;
+
+.icon {
+  color: inherit;
+}
+
+.primary {
+  color: $text-primary;
+}
+
+.secondary {
+  color: $text-secondary;
+}
+
+.accent {
+  color: $brand;
+}

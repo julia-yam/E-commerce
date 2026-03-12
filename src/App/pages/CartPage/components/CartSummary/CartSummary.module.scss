@@ -1,0 +1,55 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+@import 'styles/mixins';
+
+.summary {
+  flex: 0 0 350px;
+  padding: $space-m;
+  background: $screen--color;
+  border: 2px solid $line-color;
+  height: fit-content;
+  position: sticky;
+  top: 20px;
+
+  @include respond-down("tablet") {
+    flex: none;
+    width: 100%;
+    position: static;
+  }
+
+  .summaryDetails {
+    margin: $space-s 0;
+    display: flex;
+    flex-direction: column;
+    gap: $space-xxs;
+  }
+
+  .summaryRow {
+    display: flex;
+    justify-content: space-between;
+    gap: $space-s;
+  }
+
+  hr {
+    border: none;
+    border-top: 2px solid $line-color;
+    margin: $space-s 0;
+  }
+
+  .total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $space-l;
+  }
+
+  .checkoutBtn {
+    width: 100%;
+  }
+}
+
+.emptyCart {
+  text-align: center;
+  @include _adaptive-value("padding-top", 60, 120);
+  @include _adaptive-value("padding-bottom", 60, 120);
+}

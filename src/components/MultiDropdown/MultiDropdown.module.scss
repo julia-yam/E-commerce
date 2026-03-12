@@ -1,0 +1,45 @@
+@use 'styles/variables.scss' as *;
+@use 'styles/mixins' as *;
+
+.multiDropdown {
+  position: relative;
+  width: 100%;
+
+  &Options {
+    background-color: $dropdown-options-bg;
+    position: absolute;
+    z-index: 10;
+    margin-top: $space-xxs;
+    width: 100%;
+    box-shadow: $shadow;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  &Item {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding: $space-s $space-xs;
+    cursor: pointer;
+
+    &:hover {
+      color: $text-secondary;
+    }
+
+    &Selected {
+      &,
+      &:hover {
+        color: $brand;
+      }
+    }
+  }
+}
+
+.viewP16 {
+  @include adaptive-font(14, 16);
+  @include adaptive-lh(18, 20);
+}
+
+.weightNormal {
+  font-weight: 400;
+}

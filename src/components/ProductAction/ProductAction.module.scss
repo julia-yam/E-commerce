@@ -1,0 +1,15 @@
+@use 'styles/mixins' as *;
+
+.desktopLabel {
+  display: inline;
+  @include respond-down("mobile") {
+    display: none;
+  }
+}
+
+.mobileLabel {
+  display: none;
+  @include respond-down("mobile") {
+    display: inline;
+  }
+}

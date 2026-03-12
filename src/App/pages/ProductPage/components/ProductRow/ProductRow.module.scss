@@ -1,0 +1,28 @@
+@use 'styles/variables.scss' as *;
+@use 'styles/mixins' as *;
+@use 'styles/functions' as f;
+
+.rowWrapper {
+  display: flex;
+  box-sizing: border-box;
+  padding-bottom: f.rem(24);
+
+  .gridRow {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    align-items: stretch;
+
+    grid-template-columns: repeat(3, 1fr);
+    gap: $space-l;
+
+    @include respond-down("laptop") {
+      grid-template-columns: repeat(2, 1fr);
+      gap: $space-m;
+    }
+
+    @include respond-down("mobile") {
+      gap: f.rem(12);
+    }
+  }
+}

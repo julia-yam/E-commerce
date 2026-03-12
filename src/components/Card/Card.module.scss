@@ -1,0 +1,69 @@
+@use 'styles/mixins' as *;
+@use 'styles/variables.scss' as *;
+@use 'styles/functions' as f;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  background-color: $card-bg;
+
+  &:hover {
+    box-shadow: $shadow;
+  }
+
+  &--clickable {
+    cursor: pointer;
+  }
+
+  &Header {
+    position: relative;
+    display: flex;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+    overflow: hidden;
+    background-color: $card-image-bg;
+  }
+
+  &Image {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  &Body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding-top: $space-xl;
+
+    &Main {
+      display: flex;
+      flex-direction: column;
+      gap: $space-xxs;
+      padding: 0 $space-xs $space-l $space-xs;
+    }
+  }
+
+  &Footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 0 $space-xs $space-xl $space-xs;
+    min-height: f.rem(52);
+  }
+
+  &Action {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: f.rem(52);
+    min-width: f.rem(150);
+  }
+}

@@ -1,0 +1,62 @@
+@use 'styles/variables.scss' as *;
+@use 'styles/mixins' as *;
+
+.text {
+  color: inherit;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+.weightNormal {
+  font-weight: 400;
+}
+
+.weightMedium {
+  font-weight: 500;
+}
+
+.weightBold {
+  font-weight: 700;
+}
+
+.colorPrimary {
+  color: $text-primary;
+}
+
+.colorSecondary {
+  color: $text-secondary;
+}
+
+.colorAccent {
+  color: $brand;
+}
+
+.viewTitle {
+  @include adaptive-font(24, 32);
+  @include adaptive-lh(30, 40);
+}
+
+.viewButton {
+  @include adaptive-font(16, 18);
+  @include adaptive-lh(16, 18);
+}
+
+.viewP20 {
+  @include adaptive-font(18, 20);
+  @include adaptive-lh(22, 24);
+}
+
+.viewP18 {
+  @include adaptive-font(16, 18);
+  @include adaptive-lh(20, 22);
+}
+
+.viewP16 {
+  @include adaptive-font(14, 16);
+  @include adaptive-lh(18, 20);
+}
+
+.viewP14 {
+  font-size: 14px;
+  line-height: 18px;
+}
